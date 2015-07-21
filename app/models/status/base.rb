@@ -30,7 +30,7 @@ module Status::Base
   def as_json(options={})
     to_s
   end
-  
+
   def earned_points(max_points, submissions_count)
     0
   end
