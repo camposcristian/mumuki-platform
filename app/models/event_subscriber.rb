@@ -1,21 +1,19 @@
 class EventSubscriber < ActiveRecord::Base
   validates_presence_of :url
 
-  def subscribed_to?(event)
-    enabled
+  def notify_submissions!(submissions)
+    notify({events: submissions}.to_json, 'batch/submissions')
   end
 
-  def post_json(event, path)
-    response = JSON.parse(do_request(event, path))
-    validate_response(response)
-  end
-
-  def self.notify_sync!(event)
-    notify! :sync, event
-  end
-
-  def self.notify_async!(event)
-    notify! :async, event
+  def self.notify_submissions!(submissions)
+    all.where(enabled: true).each do |it|
+      it.notify_submissions!(submissions)
+    end
+    transaction do
+      submissions.each do |it|
+        it.update!(notified: true)
+      end
+    end
   end
 
   private
