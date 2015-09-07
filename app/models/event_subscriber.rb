@@ -2,7 +2,12 @@ class EventSubscriber < ActiveRecord::Base
   validates_presence_of :url
 
   def notify_submissions!(submissions)
-    notify({events: submissions}.to_json, 'batch/submissions')
+    notify({events: submissions.as_json(
+         except: [:exercise_id, :submission_id],
+         include: {
+             exercise: {only: [:id, :guide_id]},
+             submitter: {only: [:id, :name]}}
+    )}.to_json, 'batch/submissions')
   end
 
   def self.notify_submissions!(submissions)
