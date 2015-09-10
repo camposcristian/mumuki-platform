@@ -23,13 +23,7 @@ class EventSubscriber < ActiveRecord::Base
 
   private
 
-  def self.notify!(mode, event)
-    EventSubscriber.all.select { |it| it.subscribed_to? event }.each do |it|
-      event.send "notify_#{mode}!", it
-    end
-  end
-
-  def do_request(event, path)
+  def notify(event, path)
     RestClient.post("#{url}/#{path}", event, content_type: :json)
   end
 

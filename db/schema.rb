@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819144844) do
+ActiveRecord::Schema.define(version: 20150905214532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,8 +108,8 @@ ActiveRecord::Schema.define(version: 20150819144844) do
     t.text     "corollary"
     t.integer  "layout",            default: 0,    null: false
     t.text     "expectations"
-    t.string   "slug"
     t.integer  "max_points",        default: 10
+    t.string   "slug"
   end
 
   add_index "exercises", ["author_id"], name: "index_exercises_on_author_id", using: :btree
@@ -151,10 +151,10 @@ ActiveRecord::Schema.define(version: 20150819144844) do
     t.string   "original_id_format", default: "%05d", null: false
     t.string   "locale",             default: "en"
     t.integer  "language_id"
-    t.text     "extra_code"
     t.integer  "path_id"
     t.integer  "position"
     t.text     "corollary"
+    t.text     "extra_code"
     t.boolean  "learning",           default: false
     t.boolean  "beta",               default: false
     t.string   "slug"
